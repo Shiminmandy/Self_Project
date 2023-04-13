@@ -2,11 +2,48 @@ CREATE DATABASE test;
 USE test;
 CREATE TABLE student(
 	id INT UNSIGNED PRIMARY KEY,
-	name VARCHAR(20) NOT NULL,
-	gender CHAR(1) NOT NULL,
+	name VARCHAR(20) NOT NULL,     #varchar 不固定长度字符串 大小：1-65535字符
+	gender CHAR(1) NOT NULL,       #char 固定长度字符串 大小： 1-255字符
 	birthday DATE NOT NULL,
 	tel CHAR(11) NOT NULL,
 	remark VARCHAR(200)
 );
 INSERT INTO student VALUES(1,"alex","m","1995-05-15","12345678912",NULL);
 SHOW tables;
+DESC student; # 查看表结构 
+SHOW CREATE TABLE student; #显示建表语句
+#DROP student;
+
+#添加字段 
+ALTER TABLE student
+ADD address VARCHAR(200) NOT NULL,
+ADD home_tel CHAR(11) NOT NULL;
+
+#修改字段类型和约束 
+ALTER TABLE student 
+MODIFY home_tel VARCHAR(20) NOT NULL;
+# 修改字段名称 
+ALTER TABLE student 
+CHANGE address home_address VARCHAR(200) NOT NULL;
+# 删除字段 
+ALTER TABLE 
+DROP home_address,
+DROP home_tel;
+
+#外键约束的定义写在子表上
+#外键约束最好不用，不然很难删除表格 
+# 父表
+CREATE TABLE t_dept(
+	deptno INT UNSIGNED PRIMARY KEY,
+	dname VARCHAR(20) NOT NULL UNIQUE,
+	tel VARCHAR(4) UNIQUE
+);
+# 子表
+CREATE TABLE t_emp(
+	empno INT UNSIGNED PRIMARY KEY,
+	ename VARCHAR(20) NOT NULL,
+	sex ENUM("m","f") NOT NULL,
+	deptno INT UNSIGNED NOT NULL,
+	hiredate DATE NOT NULL,
+	FOREIGN KEY (deptno) REFERENCES t_dept(deptno) #形成外键约束
+);

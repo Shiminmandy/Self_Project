@@ -1,0 +1,7 @@
+USE demo;
+SELECT * FROM t_emp;
+SELECT empno,ename,sal FROM t_emp; //查看被选择的三个分类信息
+SELECT  
+	empno,
+	sal*12 AS "income"
+From T_EMP;
